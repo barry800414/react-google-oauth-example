@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 /**
  *
- * Step 1. Send authorization request to google for asking user to login google & give consent to access user's email.
- * Step 2. User login to google and give consent to access user's email.
- * Step 3. Google redirects browser to callback url, and send back access token.
- * Step 4. We get access token, store it into localStorage, and use it to get user's email.
+ * Step 1. User does something that we need to access his/her resource.
+ * Step 2. We send authorization request to google for asking user to login google & give consent to access user's resource.
+ * Step 3. Google Oauth server display UI for user to login & give consent.
+ * Step 4. User login to google and give consent to access resource.
+ * Step 5. Google redirects browser to callback URL, bringing with access token in URL.
+ * Step 6. We get access token, store it into localStorage, and use it to access user's resource.
  *
  */
 
@@ -32,7 +34,7 @@ const Callback = () => {
 
   const navigate = useNavigate();
 
-  // Step 3
+  // Step 5
   useEffect(() => {
     const accessToken = getAccessTokenFromCallback();
     storeAccessToken(accessToken);

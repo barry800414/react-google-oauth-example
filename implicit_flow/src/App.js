@@ -3,17 +3,19 @@ import { randomString } from './utils';
 
 /**
  *
- * Step 1. Send authorization request to google for asking user to login google & give consent to access user's email.
- * Step 2. User login to google and give consent to access user's email.
- * Step 3. Google redirects browser to callback url, and send back access token.
- * Step 4. We get access token, store it into localStorage, and use it to get user's email.
+ * Step 1. User does something that we need to access his/her resource.
+ * Step 2. We send authorization request to google for asking user to login google & give consent to access user's resource.
+ * Step 3. Google Oauth server display UI for user to login & give consent.
+ * Step 4. User login to google and give consent to access resource.
+ * Step 5. Google redirects browser to callback URL, bringing with access token in URL.
+ * Step 6. We get access token, store it into localStorage, and use it to access user's resource.
  *
  */
 
 function App() {
   const [user, setMyUser] = React.useState(null);
 
-  // Step 1.
+  // Step 2.
   const googleOauth2SignIn = () => {
     // Google's OAuth 2.0 endpoint for requesting an access token
     const oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -53,7 +55,7 @@ function App() {
     form.submit();
   };
 
-  // Step 4.
+  // Step 6.
   const requestToGetMyUserInfo = () => {
     const googleOauth2AccessToken = window.localStorage.getItem("google_oauth2_access_token");
     fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
@@ -78,6 +80,7 @@ function App() {
 
   return (
     <div className="App">
+      {/* Step 1. */}
       <button onClick={onGetMyUserInfo}>Get my user info from Google</button>
       {user &&
         <div>

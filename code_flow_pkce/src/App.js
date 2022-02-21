@@ -3,18 +3,25 @@ import { randomString, generateCodeVerifierAndCodeChallenge } from './utils';
 
 /**
  *
- * Step 1. Send authorization request to google for asking user to login google & give consent.
- * Step 2. User login to google and give consent to access user's email.
- * Step 3. Google redirects browser to callback url, and send back authorization code.
- * Step 4. Send authorization code to google Oauth token endpoint to get access token.
- * Step 5. We get access token, store it into localStorage, and use it to get user's email.
+ * Step 1. User does something that we need to access his/her resource.
+ * Step 2. We generate code_verifier and code_challenge.
+ * Step 3. We send authorization request to google for asking user to
+ *         login google & give consent to access user's resource, along
+ *         with code_challenge & code_challenge_method.
+ * Step 4. Google Oauth server display UI for user to login & give consent.
+ * Step 5. User login to google and give consent to access resource.
+ * Step 6. Google redirects browser to callback URL, bringing with
+ *         authorization code in URL.
+ * Step 7. We send authorization code & code_verifier to token endpoint to
+ *         get access token.
+ * Step 8. We get access token, store it into localStorage
+ * Step 9. We use access token to get user's resource.
  *
  */
 
 function App() {
   const [user, setMyUser] = React.useState(null);
 
-  // Step 1.
   const googleOauth2SignIn = async () => {
     // Google's OAuth 2.0 endpoint for requesting an access token
     const oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -31,6 +38,7 @@ function App() {
     window.localStorage.setItem('google_oauth2_state', state);
 
 
+    // Step 2.
     // PKCE: Generate code_verifier, code_challenge, and code_challenge_method.
     const codeChallengeMethod = 'S256';
     const { codeVerifier, codeChallenge } = await generateCodeVerifierAndCodeChallenge(codeChallengeMethod);
@@ -57,12 +65,13 @@ function App() {
       form.appendChild(input);
     }
 
+    // Step 3.
     // Add form to page and submit it to open the OAuth 2.0 endpoint.
     document.body.appendChild(form);
     form.submit();
   };
 
-  // Step 4.
+  // Step 9.
   const requestToGetMyUserInfo = () => {
     const googleOauth2AccessToken = window.localStorage.getItem("google_oauth2_access_token");
     fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
@@ -87,6 +96,7 @@ function App() {
 
   return (
     <div className="App">
+      {/* Step 1. */}
       <button onClick={onGetMyUserInfo}>Get my user info from Google</button>
       {user &&
         <div>
