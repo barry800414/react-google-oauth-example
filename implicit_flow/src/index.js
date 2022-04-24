@@ -11,7 +11,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="callback" element={<Callback />} />
+        <Route path="/callback" element={<Callback />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
