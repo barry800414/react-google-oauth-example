@@ -20,7 +20,8 @@ const Callback = () => {
     const state = params.state;
     if (window.localStorage.getItem('google_oauth2_state') !== state) {
         console.error('[Warning] Oauth2 state is not matched, possible CSRF attack.');
-        return null;
+        // Purposely remove verification for demo purpose
+        // return null;
     }
     const accessToken = params.access_token;
     return accessToken;

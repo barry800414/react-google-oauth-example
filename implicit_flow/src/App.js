@@ -13,7 +13,7 @@ import { randomString } from './utils';
  */
 
 function App() {
-  const [user, setMyUser] = React.useState(null);
+  const [accessToken, ] = React.useState(() => window.localStorage.getItem("google_oauth2_access_token"));
 
   // Step 2.
   const googleOauth2SignIn = () => {
@@ -35,7 +35,7 @@ function App() {
     const params = {
       client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
       redirect_uri: document.location.origin + "/callback",
-      scope: "https://www.googleapis.com/auth/userinfo.email",
+      scope: "https://www.googleapis.com/auth/drive",
       state,
       response_type: "token",
       include_granted_scopes: "true",
@@ -56,37 +56,33 @@ function App() {
   };
 
   // Step 6.
-  const requestToGetMyUserInfo = () => {
+  const requestToUploadFile = () => {
     const googleOauth2AccessToken = window.localStorage.getItem("google_oauth2_access_token");
-    fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-      headers: {
-        'Authorization': 'Bearer ' + googleOauth2AccessToken
-      }
-    }).then((response) => {
-      return response.json();
-    }).then((json) => {
-      setMyUser(json);
-    });
-  }
+    const input = document.getElementById('file_input')
 
-  const onGetMyUserInfo = () => {
-    const googleOauth2AccessToken = window.localStorage.getItem("google_oauth2_access_token");
-    if (!googleOauth2AccessToken) {
-      googleOauth2SignIn();
-    } else {
-      requestToGetMyUserInfo();
-    }
+    fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=media', {
+      method: 'POST',
+      headers: {
+        'Content-Type': input.files[0].type,
+        'Content-Length': input.files[0].size,
+        'Authorization': 'Bearer ' + googleOauth2AccessToken,
+      },
+      body: new Blob([input.files[0]]),
+    }).then(() => {
+      alert('You successfully upload your photo !');
+    }).catch(() => {
+      alert('Something went wrong');
+    });
   };
 
   return (
     <div className="App">
       {/* Step 1. */}
-      <button onClick={onGetMyUserInfo}>Get my user info from Google</button>
-      {user &&
+      {!accessToken ?
+        <button onClick={googleOauth2SignIn}> Authorize to access your google drive </button> :
         <div>
-          <div>email: {user.email}</div>
-          <div>id: {user.id}</div>
-          <img src={user.picture} />
+          <div>Upload your photo</div>
+          <input type="file" id="file_input" onChange={requestToUploadFile}/>
         </div>
       }
     </div>
