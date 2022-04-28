@@ -76,16 +76,21 @@ function App() {
   };
 
   return (
-    <div className="App">
-      {/* Step 1. */}
-      {!accessToken ?
-        <button onClick={googleOauth2SignIn}> Authorize to access your google drive </button> :
-        <div>
-          <div>Upload your photo</div>
-          <input type="file" id="file_input" onChange={requestToUploadFile}/>
-        </div>
-      }
+    <div className="app">
+      <div className="header">Contract Portal</div>
+      <div className="body">
+        {/* Step 1. */}
+        {!accessToken ?
+          <button onClick={googleOauth2SignIn}> Authorize to link your google drive </button> :
+          <div>
+            <div>Upload your photo</div>
+            <input type="file" id="file_input" onChange={requestToUploadFile}/>
+          </div>
+        }
+      </div>
+      <div className="footer">This is a website for demonstrating OAuth 2.0 Implicit Flow with possible CSRF attack. <a href="https://github.com/barry800414/react-google-oauth-example">Github Repo</a></div>
     </div>
+
   );
 }
 

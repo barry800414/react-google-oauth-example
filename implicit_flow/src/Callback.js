@@ -45,9 +45,9 @@ const Callback = () => {
   }, [])
 
   return (
-    <div className="App">
-      Redirecting back...
-      <br></br>(Purposely stop at this page for 10 seconds for demo purpose)
+    <div className="app">
+      <div>Redirecting back...</div>
+      <div>(Purposely stop at this page for 10 seconds for demo purpose)</div>
     </div>
   );
 }
