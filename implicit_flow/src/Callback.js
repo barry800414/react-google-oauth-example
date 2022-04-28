@@ -39,12 +39,15 @@ const Callback = () => {
   useEffect(() => {
     const accessToken = getAccessTokenFromCallback();
     storeAccessToken(accessToken);
-    navigate("/");
+    setTimeout(() => {
+      navigate("/");
+    }, 10000);
   }, [])
 
   return (
     <div className="App">
-      Loading...
+      Redirecting back...
+      <br></br>(Purposely stop at this page for 10 seconds for demo purpose)
     </div>
   );
 }
