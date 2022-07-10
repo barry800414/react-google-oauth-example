@@ -41,13 +41,13 @@ const Callback = () => {
     storeAccessToken(accessToken);
     setTimeout(() => {
       navigate("/");
-    }, 10000);
+    }, 5000);
   }, [])
 
   return (
     <div className="app">
       <div>Redirecting back...</div>
-      <div>(Purposely stop at this page for 10 seconds for demo purpose)</div>
+      <div>(Purposely stop at this page for 5 seconds for demo purpose)</div>
     </div>
   );
 }
