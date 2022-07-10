@@ -83,7 +83,7 @@ function App() {
         {!accessToken ?
           <button onClick={googleOauth2SignIn}> Authorize to link your google drive </button> :
           <div>
-            <div>Upload your photo</div>
+            <div>Upload your contract</div>
             <input type="file" id="file_input" onChange={requestToUploadFile}/>
           </div>
         }
