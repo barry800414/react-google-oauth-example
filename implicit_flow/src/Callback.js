@@ -41,7 +41,7 @@ const Callback = () => {
     storeAccessToken(accessToken);
     setTimeout(() => {
       navigate("/");
-    }, 2);
+    }, 2000);
   }, [])
 
   return (
